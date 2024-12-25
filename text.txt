@@ -1,0 +1,56 @@
+let currentSlide = 0;
+const photos = ['photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg', 'photo5.jpg']; // Add your photo paths here
+const questions = [
+    "What is the sum of my birthday and your birthday?", 
+    "What is the name of your cat?", 
+    "What word refers to creative expression through various mediums like painting or sculpture?", 
+    "What is the activity you always do to me that is synonymous with annoying?", 
+    "What word represents a warm embrace between friends?" // Added new question
+]; // Updated questions
+const answers = [
+    "..--- .....",  // Morse code for 25
+    ".-- .... .. ... -.- -.--", // Morse code for 'Whiskey'
+    ".- .-. -", // Morse code for 'Art'
+    "- . .- ... .", // Morse code for 'Tease'
+    ".... ..- --." // Morse code for 'Hug'
+]; // Morse answers in MORS code
+const endMessage = 'You have unlocked all memories! Enjoy this beautiful moment!';
+
+function checkAnswer() {
+    const userAnswer = document.getElementById('morse-code').value.trim().toUpperCase();
+
+    // Check if the user answer is correct
+    if (userAnswer === answers[currentSlide]) {
+        // Show the photo of the current slide
+        const slideImage = document.getElementById('slide');
+        slideImage.src = photos[currentSlide];
+        slideImage.classList.remove('hidden'); // Reveal the image
+
+        // Move to the next slide
+        currentSlide++;
+
+        // Check if there are more slides, otherwise show the end message
+        if (currentSlide < photos.length) {
+            document.getElementById('question').innerText = questions[currentSlide];
+            document.getElementById('morse-code').value = '';
+        } else {
+            document.getElementById('question').style.display = 'none';
+            document.getElementById('morse-code').style.display = 'none';
+            document.getElementById('message').innerText = endMessage;
+            showFinalMessage();
+        }
+    } else {
+        document.getElementById('message').innerText = 'Incorrect Morse code. Try again.';
+    }
+}
+
+function showFinalMessage() {
+    // Display a final message after all slides are completed
+    const finalMessage = 'Congratulations! You have completed the memory journey!';
+    const messageElement = document.createElement('p');
+    messageElement.innerText = finalMessage;
+    messageElement.style.fontSize = '1.5em';
+    messageElement.style.color = 'green';
+    messageElement.style.fontWeight = 'bold';
+    document.body.appendChild(messageElement); // Append the message to the page
+}
